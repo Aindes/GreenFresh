@@ -57,7 +57,6 @@ public class AddPlantActivity extends AppCompatActivity {
             String price = intent.getStringExtra("price");
             String description = intent.getStringExtra("description");
 
-            // Clean price from "Rp " prefix if exists
             if (price != null && price.startsWith("Rp ")) {
                 price = price.substring(3).trim();
             }
@@ -67,7 +66,6 @@ public class AddPlantActivity extends AppCompatActivity {
             etPrice.setText(price);
             etDescription.setText(description);
 
-            // Disable name editing in edit mode to avoid conflicts
             etName.setEnabled(false);
         } else {
             btnSave.setVisibility(View.GONE);
@@ -90,7 +88,6 @@ public class AddPlantActivity extends AppCompatActivity {
             return;
         }
 
-        // Validate price is numeric
         try {
             Double.parseDouble(price);
         } catch (NumberFormatException e) {
@@ -109,88 +106,88 @@ public class AddPlantActivity extends AppCompatActivity {
 
     private void createPlant(Plant plant) {
         Log.d(TAG, "Creating plant: " + plant.getName());
+        Log.d(TAG, "Plant data - Name: " + plant.getName() + ", Price: " + plant.getPrice() + ", Description: " + plant.getDescription());
 
-        Call<PlantResponse> call = apiService.createPlant(plant);
-        call.enqueue(new Callback<PlantResponse>() {
+        Call<SimpleResponse> call = apiService.createPlant(plant);
+        call.enqueue(new Callback<SimpleResponse>() {
             @Override
-            public void onResponse(Call<PlantResponse> call, Response<PlantResponse> response) {
+            public void onResponse(Call<SimpleResponse> call, Response<SimpleResponse> response) {
                 Log.d(TAG, "Create response code: " + response.code());
 
                 if (response.isSuccessful() && response.body() != null) {
-                    PlantResponse plantResponse = response.body();
-                    Log.d(TAG, "Create response message: " + plantResponse.getMessage());
+                    SimpleResponse createResponse = response.body();
+                    Log.d(TAG, "Create response message: " + createResponse.getMessage());
 
-                    // Check if operation was successful based on message
-                    if (plantResponse.isOperationSuccessful()) {
+                    if (createResponse.isSuccessful()) {
                         Toast.makeText(AddPlantActivity.this, "Tanaman berhasil ditambahkan", Toast.LENGTH_SHORT).show();
                         setResult(RESULT_OK);
                         finish();
                     } else {
-                        Toast.makeText(AddPlantActivity.this, "Gagal menambahkan tanaman: " + plantResponse.getMessage(), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(AddPlantActivity.this, "Gagal menambahkan tanaman: " + createResponse.getMessage(), Toast.LENGTH_SHORT).show();
                     }
                 } else {
-                    String errorMessage = "Gagal menambahkan tanaman";
+                    String errorMessage = "Gagal menambahkan tanaman (HTTP " + response.code() + ")";
                     try {
                         if (response.errorBody() != null) {
                             String errorBodyStr = response.errorBody().string();
                             Log.e(TAG, "Error body: " + errorBodyStr);
-                            errorMessage += " (Server Error: " + response.code() + ")";
+                            errorMessage = "Gagal menambahkan tanaman: " + errorBodyStr;
                         }
                     } catch (Exception e) {
                         Log.e(TAG, "Error reading error body", e);
                     }
-                    Toast.makeText(AddPlantActivity.this, errorMessage, Toast.LENGTH_SHORT).show();
+                    Toast.makeText(AddPlantActivity.this, errorMessage, Toast.LENGTH_LONG).show();
                 }
             }
 
             @Override
-            public void onFailure(Call<PlantResponse> call, Throwable t) {
+            public void onFailure(Call<SimpleResponse> call, Throwable t) {
                 Log.e(TAG, "Create plant failed", t);
-                Toast.makeText(AddPlantActivity.this, "Error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(AddPlantActivity.this, "Koneksi gagal: " + t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
     }
 
     private void updatePlant(Plant plant) {
         Log.d(TAG, "Updating plant: " + currentPlantName);
+        Log.d(TAG, "Plant data - Name: " + plant.getName() + ", Price: " + plant.getPrice() + ", Description: " + plant.getDescription());
 
-        Call<PlantResponse> call = apiService.updatePlant(currentPlantName, plant);
-        call.enqueue(new Callback<PlantResponse>() {
+        Call<SimpleResponse> call = apiService.updatePlant(currentPlantName, plant);
+        call.enqueue(new Callback<SimpleResponse>() {
             @Override
-            public void onResponse(Call<PlantResponse> call, Response<PlantResponse> response) {
+            public void onResponse(Call<SimpleResponse> call, Response<SimpleResponse> response) {
                 Log.d(TAG, "Update response code: " + response.code());
 
                 if (response.isSuccessful() && response.body() != null) {
-                    PlantResponse plantResponse = response.body();
-                    Log.d(TAG, "Update response message: " + plantResponse.getMessage());
+                    SimpleResponse updateResponse = response.body();
+                    Log.d(TAG, "Update response message: " + updateResponse.getMessage());
 
-                    // Check if operation was successful based on message
-                    if (plantResponse.isOperationSuccessful()) {
+                    if (updateResponse.isSuccessful()) {
                         Toast.makeText(AddPlantActivity.this, "Tanaman berhasil diupdate", Toast.LENGTH_SHORT).show();
                         setResult(RESULT_OK);
                         finish();
                     } else {
-                        Toast.makeText(AddPlantActivity.this, "Gagal mengupdate tanaman: " + plantResponse.getMessage(), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(AddPlantActivity.this, "Gagal mengupdate tanaman: " + updateResponse.getMessage(), Toast.LENGTH_SHORT).show();
                     }
                 } else {
-                    String errorMessage = "Gagal mengupdate tanaman";
+                    String errorMessage = "Gagal mengupdate tanaman (HTTP " + response.code() + ")";
                     try {
                         if (response.errorBody() != null) {
                             String errorBodyStr = response.errorBody().string();
                             Log.e(TAG, "Error body: " + errorBodyStr);
-                            errorMessage += " (Server Error: " + response.code() + ")";
+                            errorMessage = "Gagal mengupdate tanaman: " + errorBodyStr;
                         }
                     } catch (Exception e) {
                         Log.e(TAG, "Error reading error body", e);
                     }
-                    Toast.makeText(AddPlantActivity.this, errorMessage, Toast.LENGTH_SHORT).show();
+                    Toast.makeText(AddPlantActivity.this, errorMessage, Toast.LENGTH_LONG).show();
                 }
             }
 
             @Override
-            public void onFailure(Call<PlantResponse> call, Throwable t) {
+            public void onFailure(Call<SimpleResponse> call, Throwable t) {
                 Log.e(TAG, "Update plant failed", t);
-                Toast.makeText(AddPlantActivity.this, "Error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(AddPlantActivity.this, "Koneksi gagal: " + t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
     }

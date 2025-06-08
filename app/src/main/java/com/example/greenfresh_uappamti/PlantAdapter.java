@@ -30,13 +30,6 @@ public class PlantAdapter extends RecyclerView.Adapter<PlantAdapter.PlantViewHol
         this.listener = listener;
     }
 
-    // Constructor untuk kompatibilitas dengan kode lama
-    public PlantAdapter(Context context, List<Plant> plantList) {
-        this.context = context;
-        this.plantList = plantList;
-        this.listener = null;
-    }
-
     @NonNull
     @Override
     public PlantViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -50,7 +43,6 @@ public class PlantAdapter extends RecyclerView.Adapter<PlantAdapter.PlantViewHol
 
         holder.tvName.setText(plant.getName());
 
-        // Format price
         String price = plant.getPrice();
         if (price != null && !price.startsWith("Rp")) {
             price = "Rp " + price;
@@ -63,7 +55,6 @@ public class PlantAdapter extends RecyclerView.Adapter<PlantAdapter.PlantViewHol
             if (listener != null) {
                 listener.onDeletePlant(plant, position);
             } else {
-                // Fallback untuk kompatibilitas kode lama
                 plantList.remove(position);
                 notifyItemRemoved(position);
                 notifyItemRangeChanged(position, plantList.size());

@@ -39,16 +39,12 @@ public class PlantListActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_plant_list);
 
-        // Initialize Firebase Auth
         mAuth = FirebaseAuth.getInstance();
 
-        // Initialize API Service
         apiService = ApiClient.getPlantApiService();
 
-        // Check if user is logged in
         FirebaseUser currentUser = mAuth.getCurrentUser();
         if (currentUser == null) {
-            // User not logged in, redirect to login
             startActivity(new Intent(this, LoginActivity.class));
             finish();
             return;
@@ -172,7 +168,6 @@ public class PlantListActivity extends AppCompatActivity {
                     PlantResponse plantResponse = response.body();
                     Log.d(TAG, "Delete response message: " + plantResponse.getMessage());
 
-                    // Check if deletion was successful based on message
                     if (plantResponse.isOperationSuccessful()) {
                         plantList.remove(position);
                         adapter.notifyItemRemoved(position);
@@ -209,7 +204,6 @@ public class PlantListActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if ((requestCode == 1 || requestCode == 2) && resultCode == RESULT_OK) {
-            // Refresh data dari API setelah menambah/update tanaman
             loadPlantsFromApi();
         }
     }
@@ -217,7 +211,6 @@ public class PlantListActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        // Refresh data ketika kembali ke activity ini
         loadPlantsFromApi();
     }
 }

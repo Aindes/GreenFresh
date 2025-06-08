@@ -7,12 +7,11 @@ import java.util.List;
 public class PlantResponse {
     private boolean success;
     private String message;
-    private List<Plant> data;  // untuk GET all plants
-    private Plant plant;       // untuk single plant operations
-    private PlantData plantData; // untuk nested plant data
+    private List<Plant> data;
+    private Plant plant;
+    private CreateUpdateData data2;
 
-    // Inner class untuk handle nested plant data structure
-    public static class PlantData {
+    public static class CreateUpdateData {
         private Plant plant;
 
         public Plant getPlant() {
@@ -41,17 +40,16 @@ public class PlantResponse {
         return plant;
     }
 
-    public PlantData getPlantData() {
-        return plantData;
+    public CreateUpdateData getData2() {
+        return data2;
     }
 
-    // Method untuk mendapatkan plant dari berbagai struktur response
     public Plant getSinglePlant() {
         if (plant != null) {
             return plant;
         }
-        if (plantData != null && plantData.getPlant() != null) {
-            return plantData.getPlant();
+        if (data2 != null && data2.getPlant() != null) {
+            return data2.getPlant();
         }
         if (data != null && !data.isEmpty()) {
             return data.get(0);
@@ -76,11 +74,10 @@ public class PlantResponse {
         this.plant = plant;
     }
 
-    public void setPlantData(PlantData plantData) {
-        this.plantData = plantData;
+    public void setData2(CreateUpdateData data2) {
+        this.data2 = data2;
     }
 
-    // Helper method untuk check apakah response berhasil
     public boolean isOperationSuccessful() {
         return message != null && (
                 message.contains("successfully") ||

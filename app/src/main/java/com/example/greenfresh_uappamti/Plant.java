@@ -6,7 +6,6 @@ public class Plant {
     @SerializedName("plant_name")
     private String name;
 
-    // Perbaikan: Tambahkan anotasi SerializedName
     @SerializedName("price")
     private String price;
 

@@ -16,10 +16,10 @@ public interface PlantApiService {
     Call<PlantResponse> getPlant(@Path("plant_name") String name);
 
     @POST("new")
-    Call<PlantResponse> createPlant(@Body Plant plant);
+    Call<SimpleResponse> createPlant(@Body Plant plant);
 
     @PUT("{plant_name}")
-    Call<PlantResponse> updatePlant(@Path("plant_name") String name, @Body Plant plant);
+    Call<SimpleResponse> updatePlant(@Path("plant_name") String name, @Body Plant plant);
 
     @DELETE("{plant_name}")
     Call<PlantResponse> deletePlant(@Path("plant_name") String name);

@@ -29,7 +29,7 @@ public class PlantDetailActivity extends AppCompatActivity {
             Intent intent = new Intent(PlantDetailActivity.this, AddPlantActivity.class);
             intent.putExtra("edit_mode", true);
             intent.putExtra("plant_name", plantName);
-            intent.putExtra("price", plantPrice); // Changed key to "price" to match AddPlantActivity
+            intent.putExtra("price", plantPrice);
             intent.putExtra("description", plantDescription);
             startActivityForResult(intent, 1);
         });
@@ -52,7 +52,6 @@ public class PlantDetailActivity extends AppCompatActivity {
 
         tvName.setText(plantName);
 
-        // Format price display
         String displayPrice = plantPrice;
         if (displayPrice != null && !displayPrice.startsWith("Rp")) {
             displayPrice = "Rp " + displayPrice;
@@ -67,7 +66,6 @@ public class PlantDetailActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == 1 && resultCode == RESULT_OK) {
-            // Close this activity and return to list to refresh data
             setResult(RESULT_OK);
             finish();
         }
