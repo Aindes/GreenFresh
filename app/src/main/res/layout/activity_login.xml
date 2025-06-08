@@ -5,7 +5,8 @@
     android:background="#F3F8FE"
     android:orientation="vertical"
     android:padding="24dp"
-    android:gravity="center">
+    android:gravity="center"
+    android:backgroundTint="@null" >
 
     <ImageView
         android:layout_width="209dp"
@@ -85,6 +86,22 @@
         android:textSize="20sp"
         android:background="@drawable/button_green"
         android:layout_marginBottom="20dp" />
+
+    <TextView
+        android:id="@+id/btn_google_signin"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="@drawable/button_google_signin"
+        android:text="Sign in with Google"
+        android:textColor="@android:color/black"
+        android:drawableLeft="@drawable/ic_google"
+        android:drawablePadding="10dp"
+        android:gravity="center"
+        android:textSize="16sp"
+        android:padding="12dp"
+        android:layout_marginBottom="20dp"
+        android:clickable="true"
+        android:focusable="true" />
 
     <TextView
         android:id="@+id/tv_register_link"

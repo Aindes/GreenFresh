@@ -24,4 +24,5 @@
     <string name="login_text">
         Sudah punya akun? <font color="#0066FF">Login disini</font>
     </string>
+    <string name="default_web_client_id">496825929703-he6fi3htbnsdgfbebjp913d8f9kqh7ff.apps.googleusercontent.com</string>
 </resources>

@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "496825929703",
+    "project_id": "greenfresh-8b152",
+    "storage_bucket": "greenfresh-8b152.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:496825929703:android:6a8fd5ef42c8b7bf9eb742",
+        "android_client_info": {
+          "package_name": "com.example.greenfresh_uappamti"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "496825929703-he6fi3htbnsdgfbebjp913d8f9kqh7ff.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.greenfresh_uappamti",
+            "certificate_hash": "1e324ddbc580af77184e379a530b8d83a190b068"
+          }
+        },
+        {
+          "client_id": "496825929703-l3q7vnjvbifcl3m5g0sshg205igr66b7.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCVnzBumL4hRjmjrCnx2q-enMSrGcaA3yg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "496825929703-l3q7vnjvbifcl3m5g0sshg205igr66b7.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
