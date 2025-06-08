@@ -1,0 +1,27 @@
+<resources>
+    <string name="app_name">GreenFresh</string>
+    <string name="login">Login</string>
+    <string name="register">Register</string>
+    <string name="email">Email</string>
+    <string name="password">Password</string>
+    <string name="confirm_password">Konfirmasi Password</string>
+    <string name="plant_name">Nama Tanaman</string>
+    <string name="plant_price">Harga</string>
+    <string name="plant_description">Deskripsi</string>
+    <string name="save">Simpan</string>
+    <string name="add">Tambah</string>
+    <string name="update">Update</string>
+    <string name="delete">Hapus</string>
+    <string name="detail">Detail</string>
+    <string name="welcome">Selamat Datang</string>
+    <string name="no_account">Belum punya akun?</string>
+    <string name="register_here">Register disini</string>
+    <string name="add_plant">Tambah Tanaman</string>
+    <string name="plant_list">Tambah List</string>
+    <string name="register_text">
+        Belum punya akun? <font color="#0066FF">Register disini</font>
+    </string>
+    <string name="login_text">
+        Sudah punya akun? <font color="#0066FF">Login disini</font>
+    </string>
+</resources>
