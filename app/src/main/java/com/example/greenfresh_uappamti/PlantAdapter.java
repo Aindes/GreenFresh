@@ -1,15 +1,12 @@
 package com.example.greenfresh_uappamti;
 
 import android.content.Context;
-import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -20,10 +17,24 @@ public class PlantAdapter extends RecyclerView.Adapter<PlantAdapter.PlantViewHol
 
     private List<Plant> plantList;
     private Context context;
+    private OnPlantActionListener listener;
 
+    public interface OnPlantActionListener {
+        void onDeletePlant(Plant plant, int position);
+        void onDetailPlant(Plant plant);
+    }
+
+    public PlantAdapter(Context context, List<Plant> plantList, OnPlantActionListener listener) {
+        this.context = context;
+        this.plantList = plantList;
+        this.listener = listener;
+    }
+
+    // Constructor untuk kompatibilitas dengan kode lama
     public PlantAdapter(Context context, List<Plant> plantList) {
         this.context = context;
         this.plantList = plantList;
+        this.listener = null;
     }
 
     @NonNull
@@ -38,23 +49,31 @@ public class PlantAdapter extends RecyclerView.Adapter<PlantAdapter.PlantViewHol
         Plant plant = plantList.get(position);
 
         holder.tvName.setText(plant.getName());
-        holder.tvPrice.setText(plant.getPrice());
+
+        // Format price
+        String price = plant.getPrice();
+        if (price != null && !price.startsWith("Rp")) {
+            price = "Rp " + price;
+        }
+        holder.tvPrice.setText(price);
+
         holder.ivPlant.setImageResource(plant.getImageResource());
 
         holder.btnDelete.setOnClickListener(v -> {
-            plantList.remove(position);
-            notifyItemRemoved(position);
-            notifyItemRangeChanged(position, plantList.size());
-            Toast.makeText(context, "Tanaman dihapus", Toast.LENGTH_SHORT).show();
+            if (listener != null) {
+                listener.onDeletePlant(plant, position);
+            } else {
+                // Fallback untuk kompatibilitas kode lama
+                plantList.remove(position);
+                notifyItemRemoved(position);
+                notifyItemRangeChanged(position, plantList.size());
+            }
         });
 
         holder.btnDetail.setOnClickListener(v -> {
-            Intent intent = new Intent(context, PlantDetailActivity.class);
-            intent.putExtra("plant_name", plant.getName());
-            intent.putExtra("plant_price", plant.getPrice());
-            intent.putExtra("plant_description", plant.getDescription());
-            intent.putExtra("plant_image", plant.getImageResource());
-            context.startActivity(intent);
+            if (listener != null) {
+                listener.onDetailPlant(plant);
+            }
         });
     }
 

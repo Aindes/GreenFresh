@@ -6,17 +6,16 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 
 public class PlantDetailActivity extends AppCompatActivity {
 
     private ImageView ivPlant;
     private TextView tvName, tvPrice, tvDescription;
     private Button btnUpdate;
+
+    private String plantName, plantPrice, plantDescription;
+    private int plantImage;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,10 +28,10 @@ public class PlantDetailActivity extends AppCompatActivity {
         btnUpdate.setOnClickListener(v -> {
             Intent intent = new Intent(PlantDetailActivity.this, AddPlantActivity.class);
             intent.putExtra("edit_mode", true);
-            intent.putExtra("plant_name", tvName.getText().toString());
-            intent.putExtra("plant_price", tvPrice.getText().toString());
-            intent.putExtra("plant_description", tvDescription.getText().toString());
-            startActivity(intent);
+            intent.putExtra("plant_name", plantName);
+            intent.putExtra("price", plantPrice); // Changed key to "price" to match AddPlantActivity
+            intent.putExtra("description", plantDescription);
+            startActivityForResult(intent, 1);
         });
     }
 
@@ -46,14 +45,31 @@ public class PlantDetailActivity extends AppCompatActivity {
 
     private void loadPlantData() {
         Intent intent = getIntent();
-        String name = intent.getStringExtra("plant_name");
-        String price = intent.getStringExtra("plant_price");
-        String description = intent.getStringExtra("plant_description");
-        int imageRes = intent.getIntExtra("plant_image", R.drawable.ic_plant);
+        plantName = intent.getStringExtra("plant_name");
+        plantPrice = intent.getStringExtra("plant_price");
+        plantDescription = intent.getStringExtra("plant_description");
+        plantImage = intent.getIntExtra("plant_image", R.drawable.ic_plant);
 
-        tvName.setText(name);
-        tvPrice.setText(price);
-        tvDescription.setText(description);
-        ivPlant.setImageResource(imageRes);
+        tvName.setText(plantName);
+
+        // Format price display
+        String displayPrice = plantPrice;
+        if (displayPrice != null && !displayPrice.startsWith("Rp")) {
+            displayPrice = "Rp " + displayPrice;
+        }
+        tvPrice.setText(displayPrice);
+
+        tvDescription.setText(plantDescription);
+        ivPlant.setImageResource(plantImage);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 1 && resultCode == RESULT_OK) {
+            // Close this activity and return to list to refresh data
+            setResult(RESULT_OK);
+            finish();
+        }
     }
 }
